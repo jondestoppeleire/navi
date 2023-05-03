@@ -1,8 +1,16 @@
-BIN ?= navi
-PREFIX ?= /usr/local
+export PATH := /usr/local/opt/bash/bin/:$(PATH)
 
 install:
-	scripts/symlink
+	scripts/make install
 
 uninstall:
-	rm -f $(PREFIX)/bin/$(BIN)
+	scripts/make uninstall
+
+fix:
+	scripts/make fix
+
+test:
+	scripts/test
+
+build:
+	cargo build
