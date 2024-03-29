@@ -12,6 +12,7 @@ use yaml::YamlConfig;
 lazy_static! {
     pub static ref CONFIG: Config = Config::new();
 }
+#[derive(Debug)]
 pub struct Config {
     yaml: YamlConfig,
     clap: ClapConfig,
@@ -69,7 +70,7 @@ impl Config {
                 if p.is_empty() {
                     None
                 } else {
-                    Some(p.join(":"))
+                    Some(p.join(crate::filesystem::JOIN_SEPARATOR))
                 }
             })
             .or_else(|| self.yaml.cheats.path.clone())
@@ -96,6 +97,10 @@ impl Config {
             .clone()
             .or_else(|| self.env.fzf_overrides_var.clone())
             .or_else(|| self.yaml.finder.overrides_var.clone())
+    }
+
+    pub fn tealdeer(&self) -> bool {
+        self.yaml.client.tealdeer.clone()
     }
 
     pub fn shell(&self) -> String {
